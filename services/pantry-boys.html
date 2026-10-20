@@ -99,6 +99,37 @@
       .nav-links a { text-decoration: none; font-weight: 600; font-size: 0.92rem; color: #ffffff; white-space: nowrap; }
       .nav-links a:hover { color: var(--teal); }
       .nav-links a.current { color: var(--teal); font-weight: 700; border-bottom: 2px solid var(--teal); padding-bottom: 3px; }
+      /* Services dropdown (desktop) — opens on hover, focus, and click. */
+      .nav-dropdown { position: relative; }
+      .nav-drop-btn {
+        display: inline-flex; align-items: center; gap: 6px;
+        background: none; border: 0; cursor: pointer; padding: 0;
+        font: inherit; font-weight: 600; font-size: 0.92rem; color: #ffffff; white-space: nowrap;
+      }
+      .nav-drop-btn:hover { color: var(--teal); }
+      .nav-dropdown.has-current > .nav-drop-btn { color: var(--teal); font-weight: 700; }
+      .nav-drop-btn .chev { transition: transform 0.2s ease; }
+      .nav-dropdown.open .nav-drop-btn .chev,
+      .nav-dropdown:hover .nav-drop-btn .chev { transform: rotate(180deg); }
+      .nav-drop-panel {
+        position: absolute; top: 100%; left: 50%;
+        min-width: 240px; padding-top: 14px;
+        opacity: 0; visibility: hidden; transform: translate(-50%, 6px);
+        transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+      }
+      .nav-dropdown:hover .nav-drop-panel,
+      .nav-dropdown:focus-within .nav-drop-panel,
+      .nav-dropdown.open .nav-drop-panel { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+      .nav-drop-box {
+        background: #ffffff; border-radius: var(--radius-md);
+        box-shadow: var(--shadow); padding: 8px; display: grid; gap: 2px;
+      }
+      .nav-drop-box a {
+        display: block; padding: 9px 12px; border-radius: var(--radius-sm);
+        color: var(--ink); font-weight: 600; font-size: 0.95rem; white-space: nowrap;
+      }
+      .nav-drop-box a:hover { background: var(--accent-soft); color: var(--accent-strong); }
+      .nav-drop-box a.current { background: var(--accent-soft); color: var(--accent-strong); font-weight: 700; }
       .nav-cta { margin-left: 2px; flex: none; }
       .menu-btn {
         display: none; margin-left: auto;
@@ -109,6 +140,17 @@
       .mobile-menu.open { display: block; }
       .mobile-menu a { display: block; padding: 10px 20px; text-decoration: none; font-weight: 600; }
       .mobile-menu a.current { color: var(--teal); }
+      /* Services expandable group inside the mobile menu. */
+      .mobile-svc-btn {
+        display: flex; align-items: center; justify-content: space-between; width: 100%;
+        background: none; border: 0; cursor: pointer; text-align: left;
+        padding: 10px 20px; font: inherit; font-weight: 600; color: #ffffff;
+      }
+      .mobile-svc-btn .chev { transition: transform 0.2s ease; }
+      .mobile-svc-group.open .mobile-svc-btn .chev { transform: rotate(180deg); }
+      .mobile-svc-list { display: none; }
+      .mobile-svc-group.open .mobile-svc-list { display: block; }
+      .mobile-svc-list a { padding-left: 38px; font-weight: 500; }
 
       /* ---------- Buttons ---------- */
       .btn {
@@ -288,13 +330,23 @@
           </a>
           <div class="nav-links">
             <a href="/">Home</a>
-            <a href="/services/event-staff.html">Event Staff</a>
-            <a href="/services/waiters.html">Waiters</a>
-            <a href="/services/pantry-boys.html" class="current" aria-current="page">Pantry Boys</a>
-            <a href="/services/office-boys.html">Office Boys</a>
-            <a href="/services/housekeeping.html">Housekeeping</a>
-            <a href="/services/delivery-runners.html">Delivery Runners</a>
-            <a href="/services/warehouse-packers.html">Warehouse Packers</a>
+            <div class="nav-dropdown has-current" id="servicesDropdown">
+              <button class="nav-drop-btn" id="servicesDropBtn" aria-haspopup="true" aria-expanded="false">
+                Services
+                <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+              </button>
+              <div class="nav-drop-panel">
+                <div class="nav-drop-box">
+                  <a href="/services/event-staff.html">Event Staff</a>
+                  <a href="/services/waiters.html">Waiters</a>
+                  <a href="/services/pantry-boys.html" class="current" aria-current="page">Pantry Boys</a>
+                  <a href="/services/office-boys.html">Office Boys</a>
+                  <a href="/services/housekeeping.html">Housekeeping</a>
+                  <a href="/services/delivery-runners.html">Delivery Runners</a>
+                  <a href="/services/warehouse-packers.html">Warehouse Packers</a>
+                </div>
+              </div>
+            </div>
           </div>
           <a class="btn btn-wa btn-sm nav-cta" href="https://wa.me/919759049639" target="_blank" rel="noopener">
             <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22c5.46 0 9.9-4.45 9.9-9.91C21.94 6.45 17.5 2 12.04 2zm0 18.13a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.13-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.17.24-.64.8-.78.97-.15.16-.29.18-.54.06-.25-.13-1.05-.39-2-1.23-.73-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.12-.15.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.13-.56-1.35-.77-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.13.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.6.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.1-.23-.16-.48-.29z"/></svg>
@@ -307,13 +359,21 @@
       </div>
       <div class="mobile-menu" id="mobileMenu">
         <a href="/">Home</a>
-        <a href="/services/event-staff.html">Event Staff</a>
-        <a href="/services/waiters.html">Waiters</a>
-        <a href="/services/pantry-boys.html" class="current" aria-current="page">Pantry Boys</a>
-        <a href="/services/office-boys.html">Office Boys</a>
-        <a href="/services/housekeeping.html">Housekeeping</a>
-        <a href="/services/delivery-runners.html">Delivery Runners</a>
-        <a href="/services/warehouse-packers.html">Warehouse Packers</a>
+        <div class="mobile-svc-group" id="mobileSvcGroup">
+          <button class="mobile-svc-btn" id="mobileSvcBtn" aria-expanded="false">
+            Services
+            <svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="mobile-svc-list">
+            <a href="/services/event-staff.html">Event Staff</a>
+            <a href="/services/waiters.html">Waiters</a>
+            <a href="/services/pantry-boys.html" class="current" aria-current="page">Pantry Boys</a>
+            <a href="/services/office-boys.html">Office Boys</a>
+            <a href="/services/housekeeping.html">Housekeeping</a>
+            <a href="/services/delivery-runners.html">Delivery Runners</a>
+            <a href="/services/warehouse-packers.html">Warehouse Packers</a>
+          </div>
+        </div>
       </div>
     </header>
 
@@ -617,6 +677,34 @@
           mobileMenu.classList.remove('open');
           menuBtn.setAttribute('aria-expanded', 'false');
         }
+      });
+
+      // Desktop Services dropdown — click toggles (hover/focus handled in CSS);
+      // click anywhere else or Escape closes it.
+      var servicesDropdown = document.getElementById('servicesDropdown');
+      var servicesDropBtn = document.getElementById('servicesDropBtn');
+      function closeServicesDropdown() {
+        servicesDropdown.classList.remove('open');
+        servicesDropBtn.setAttribute('aria-expanded', 'false');
+      }
+      servicesDropBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var open = servicesDropdown.classList.toggle('open');
+        servicesDropBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', function (e) {
+        if (!servicesDropdown.contains(e.target)) closeServicesDropdown();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeServicesDropdown();
+      });
+
+      // Mobile Services group — tap to expand/collapse the service list.
+      var mobileSvcGroup = document.getElementById('mobileSvcGroup');
+      var mobileSvcBtn = document.getElementById('mobileSvcBtn');
+      mobileSvcBtn.addEventListener('click', function () {
+        var open = mobileSvcGroup.classList.toggle('open');
+        mobileSvcBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
 
       // Header border once the page scrolls
