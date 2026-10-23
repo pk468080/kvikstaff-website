@@ -436,29 +436,7 @@
     }
     </script>
   
-    <style>
-      .kv-stick { position: sticky; top: 60px; z-index: 40; margin-top: -34px; padding: 6px 0 44px; transition: background .25s ease, box-shadow .25s ease, padding .25s ease; }
-      .kv-stick.collapsed { background: #ffffff; box-shadow: 0 10px 24px rgba(10,57,114,.14); padding: 8px 0; border-bottom: 1px solid #dcebf7; }
-      .kv-full { max-height: 640px; opacity: 1; overflow: hidden; transition: max-height .38s ease, opacity .22s ease; }
-      .kv-stick.collapsed .kv-full { max-height: 0; opacity: 0; }
-      .kv-full h2 { text-align: center; font-size: clamp(1.5rem, 3.4vw, 2.1rem); color: #0A3972; margin: 0 0 8px; }
-      .kv-full .sub { text-align: center; color: #5b7186; margin: 0 auto 26px; max-width: 34rem; }
-      .kv-choose-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 880px; margin: 0 auto; }
-      @media (max-width: 680px) { .kv-choose-grid { grid-template-columns: 1fr; } }
-      .kv-choice { display: block; text-decoration: none; background: #fff; border: 2px solid #dcebf7; border-radius: 20px; padding: 26px; transition: border-color .15s, transform .15s, box-shadow .15s; }
-      .kv-choice:hover { border-color: #0784FB; transform: translateY(-3px); box-shadow: 0 16px 32px rgba(10,57,114,.13); }
-      .kv-choice .ic { font-size: 2rem; }
-      .kv-choice h3 { margin: 10px 0 6px; font-size: 1.35rem; color: #0A3972; }
-      .kv-choice p { margin: 0 0 18px; color: #5b7186; font-size: .98rem; }
-      .kv-choice .go { display: inline-block; font-weight: 800; padding: 12px 22px; border-radius: 999px; color: #fff; background: #0784FB; }
-      .kv-choice.worker .go { background: #0A3972; }
-      .kv-choice.worker:hover { border-color: #0A3972; }
-      .kv-bar { display: none; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
-      .kv-stick.collapsed .kv-bar { display: flex; }
-      .kv-bar .lbl { font-weight: 800; color: #0A3972; font-size: .95rem; }
-      .kv-pill { text-decoration: none; font-weight: 800; font-size: .9rem; padding: 9px 18px; border-radius: 999px; color: #fff; background: #0784FB; white-space: nowrap; }
-      .kv-pill.worker { background: #0A3972; }
-    </style>
+    
 </head>
   <body>
     <!-- NOTE for the site owner: the WhatsApp links below use the KvikStaff
@@ -573,35 +551,6 @@
         </div>
       </div>
 
-
-      <!-- ================= WHO ARE YOU (sticky, collapses on scroll) ================= -->
-      <div class="kv-stick" id="kvStick">
-        <div class="wrap">
-          <div class="kv-full" id="kvFull">
-            <h2>First, tell us — who are you?</h2>
-            <p class="sub">KvikStaff works for both sides: businesses that need staff, and workers who want jobs.</p>
-            <div class="kv-choose-grid">
-              <a class="kv-choice" href="/customer-app.html">
-                <span class="ic" aria-hidden="true">🏢</span>
-                <h3>I'm a Customer</h3>
-                <p>I run a restaurant, office, hotel or event — and I need verified staff by the hour.</p>
-                <span class="go">Book staff →</span>
-              </a>
-              <a class="kv-choice worker" href="/worker-app.html">
-                <span class="ic" aria-hidden="true">🧑‍🍳</span>
-                <h3>I'm a Worker</h3>
-                <p>I want nearby jobs with daily earnings — and I keep 80% of every booking.</p>
-                <span class="go">Find work →</span>
-              </a>
-            </div>
-          </div>
-          <div class="kv-bar" id="kvBar" aria-hidden="true">
-            <span class="lbl">Who are you?</span>
-            <a class="kv-pill" href="/customer-app.html">🏢 I'm a Customer</a>
-            <a class="kv-pill worker" href="/worker-app.html">🧑‍🍳 I'm a Worker</a>
-          </div>
-        </div>
-      </div>
 
       <!-- ================= PAIN POINTS ================= -->
       <section id="problems" style="padding-top:8px">
@@ -1113,29 +1062,5 @@
   <style>#locationsItem.open .dropdown{opacity:1 !important;visibility:visible !important;pointer-events:auto !important;}</style>
   <script>(function(){var i=document.getElementById('locationsItem'),b=document.getElementById('locationsBtn');if(!i||!b)return;b.addEventListener('click',function(e){e.stopPropagation();var o=i.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});document.addEventListener('click',function(e){if(!i.contains(e.target)){i.classList.remove('open');b.setAttribute('aria-expanded','false');}});document.addEventListener('keydown',function(e){if(e.key==='Escape'){i.classList.remove('open');b.setAttribute('aria-expanded','false');}});})();</script>
   
-    <script>
-      (function () {
-        var el = document.getElementById('kvStick');
-        var header = document.getElementById('siteHeader');
-        var bar = document.getElementById('kvBar');
-        var full = document.getElementById('kvFull');
-        if (!el) return;
-        function setTop() { if (header) el.style.top = header.offsetHeight + 'px'; }
-        setTop();
-        window.addEventListener('resize', setTop);
-        var startY = el.getBoundingClientRect().top + window.scrollY - (header ? header.offsetHeight : 0);
-        var ticking = false;
-        function onScroll() {
-          var collapsed = window.scrollY > startY + 30;
-          el.classList.toggle('collapsed', collapsed);
-          if (bar) bar.setAttribute('aria-hidden', collapsed ? 'false' : 'true');
-          if (full) full.setAttribute('aria-hidden', collapsed ? 'true' : 'false');
-          ticking = false;
-        }
-        window.addEventListener('scroll', function () {
-          if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
-        }, { passive: true });
-      })();
-    </script>
   </body>
 </html>
