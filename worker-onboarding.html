@@ -46,7 +46,60 @@ footer.site { border-top: 1px solid var(--line); background: var(--surface); pad
 footer.site a { margin-right: 16px; }
 @media (max-width: 600px) { h1 { font-size: 1.7rem; } }
 </style>
-</head>
+<!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-YE7T5D6L7X"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-YE7T5D6L7X'); </script> <script>
+/* KvikStaff GA4 conversion tracking: real clicks only, no page-load conversion events. */
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof gtag !== 'function') return;
+  function ctaLocation(el) {
+    var n = el.closest('header, footer, nav');
+    if (n) return n.tagName.toLowerCase();
+    var s = el.closest('section');
+    return (s && s.id) ? s.id : 'body';
+  }
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var service = '';
+      try {
+        var u = new URL(el.href);
+        var txt = u.searchParams.get('text') || '';
+        if (txt) service = txt.replace(/^Hi KvikStaff,\s*/i, '').slice(0, 100);
+      } catch (e) {}
+      gtag('event', 'whatsapp_click', {
+        link_text: el.textContent.trim().slice(0, 80),
+        cta_location: ctaLocation(el),
+        service_type: service
+      });
+    });
+  });
+  document.querySelectorAll('a[href*="worker-app.html"], a[href*="worker-onboarding.html"]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      gtag('event', 'worker_registration_click', {
+        link_text: el.textContent.trim().slice(0, 80),
+        cta_location: ctaLocation(el)
+      });
+    });
+  });
+  document.querySelectorAll('a[href$="#contact"], a[href="/#contact"]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      gtag('event', 'contact_click', { link_text: el.textContent.trim().slice(0, 80), cta_location: ctaLocation(el) });
+    });
+  });
+  var staffMinus = document.getElementById('staffMinus');
+  var staffPlus = document.getElementById('staffPlus');
+  var hoursRange = document.getElementById('hoursRange');
+  function pricingEvent() {
+    var workers = document.getElementById('staffOut');
+    var hours = document.getElementById('hoursOut');
+    gtag('event', 'pricing_interaction', {
+      workers: workers ? workers.textContent.trim() : '',
+      hours: hours ? hours.textContent.trim() : (hoursRange ? hoursRange.value : '')
+    });
+  }
+  if (staffMinus) staffMinus.addEventListener('click', pricingEvent);
+  if (staffPlus) staffPlus.addEventListener('click', pricingEvent);
+  if (hoursRange) hoursRange.addEventListener('change', pricingEvent);
+});
+</script> </head>
 <body>
 <header class="site">
 <div class="wrap">

@@ -14,6 +14,60 @@
       gtag('js', new Date());
       gtag('config', 'G-YE7T5D6L7X');
     </script>
+    <script>
+/* KvikStaff GA4 conversion tracking: real clicks only, no page-load conversion events. */
+document.addEventListener('DOMContentLoaded', function () {
+  if (typeof gtag !== 'function') return;
+  function ctaLocation(el) {
+    var n = el.closest('header, footer, nav');
+    if (n) return n.tagName.toLowerCase();
+    var s = el.closest('section');
+    return (s && s.id) ? s.id : 'body';
+  }
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var service = '';
+      try {
+        var u = new URL(el.href);
+        var txt = u.searchParams.get('text') || '';
+        if (txt) service = txt.replace(/^Hi KvikStaff,\s*/i, '').slice(0, 100);
+      } catch (e) {}
+      gtag('event', 'whatsapp_click', {
+        link_text: el.textContent.trim().slice(0, 80),
+        cta_location: ctaLocation(el),
+        service_type: service
+      });
+    });
+  });
+  document.querySelectorAll('a[href*="worker-app.html"], a[href*="worker-onboarding.html"]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      gtag('event', 'worker_registration_click', {
+        link_text: el.textContent.trim().slice(0, 80),
+        cta_location: ctaLocation(el)
+      });
+    });
+  });
+  document.querySelectorAll('a[href$="#contact"], a[href="/#contact"]').forEach(function (el) {
+    el.addEventListener('click', function () {
+      gtag('event', 'contact_click', { link_text: el.textContent.trim().slice(0, 80), cta_location: ctaLocation(el) });
+    });
+  });
+  var staffMinus = document.getElementById('staffMinus');
+  var staffPlus = document.getElementById('staffPlus');
+  var hoursRange = document.getElementById('hoursRange');
+  function pricingEvent() {
+    var workers = document.getElementById('staffOut');
+    var hours = document.getElementById('hoursOut');
+    gtag('event', 'pricing_interaction', {
+      workers: workers ? workers.textContent.trim() : '',
+      hours: hours ? hours.textContent.trim() : (hoursRange ? hoursRange.value : '')
+    });
+  }
+  if (staffMinus) staffMinus.addEventListener('click', pricingEvent);
+  if (staffPlus) staffPlus.addEventListener('click', pricingEvent);
+  if (hoursRange) hoursRange.addEventListener('change', pricingEvent);
+});
+</script>
 
     <title>Terms &amp; Conditions — KvikStaff</title>
     <meta name="description" content="The terms that apply when businesses book staff and workers accept jobs on KvikStaff." />
@@ -400,7 +454,7 @@
               <li><a href="/#how">How it works</a></li>
               <li><a href="/#workers">For Workers</a></li>
               <li><a href="/#pricing">Pricing</a></li>
-              <li><a href="/#faq">FAQ</a></li>
+              <li><a href="/#faq">FAQ</a></li> <li><a href="/customer-app.html">Customer App</a></li>
             </ul>
           </div>
           <div>
